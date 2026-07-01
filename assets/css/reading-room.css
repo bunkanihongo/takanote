@@ -16,14 +16,14 @@
   --rr-accent-soft: #f3deda;
   --rr-accent-glow: rgba(188, 45, 30, 0.08);
 
-  /* トークン色 */
-  --rr-noun: #8c6b35;
-  --rr-verb: #7a5c88;
-  --rr-particle: #567d7a;
-  --rr-adj: #9a5b4f;
-  --rr-adverb: #6c7892;
-  --rr-connector: #6f7d54;
-  --rr-grammar: #a07352;
+  /* トークン色（より鮮明に） */
+  --rr-noun: #b8863c;
+  --rr-verb: #9d5cb8;
+  --rr-particle: #3d8f88;
+  --rr-adj: #c7503b;
+  --rr-adverb: #5278b3;
+  --rr-connector: #7fa34a;
+  --rr-grammar: #bf6e36;
 
   /* 寸法 */
   --rr-radius-sm: 12px;
@@ -58,13 +58,13 @@
     --rr-accent-soft: #3a2825;
     --rr-accent-glow: rgba(232, 104, 88, 0.1);
 
-    --rr-noun: #caa96b;
-    --rr-verb: #c09ad4;
-    --rr-particle: #7fb3af;
-    --rr-adj: #d99a8a;
-    --rr-adverb: #9aaccc;
-    --rr-connector: #99af7a;
-    --rr-grammar: #c9956e;
+    --rr-noun: #ebb86a;
+    --rr-verb: #daa6ee;
+    --rr-particle: #7fcfc8;
+    --rr-adj: #f48a6f;
+    --rr-adverb: #8fade3;
+    --rr-connector: #a8cf62;
+    --rr-grammar: #e08f52;
 
     --rr-shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
     --rr-shadow-md: 0 4px 16px rgba(0,0,0,0.35);
@@ -227,7 +227,7 @@
 
 /* ---- 戻る ---- */
 .rr-back-wrap {
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -260,7 +260,7 @@
 
 /* ---- タイトル ---- */
 .rr-reader-header {
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .rr-reader-title {
@@ -290,8 +290,8 @@
   -webkit-backdrop-filter: blur(12px);
   border-top: 1px solid var(--rr-line);
   border-bottom: 1px solid var(--rr-line);
-  padding: 10px 0;
-  margin: 0 0 20px;
+  padding: 8px 0;
+  margin: 0 0 14px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -364,8 +364,8 @@
 .rr-legend {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 18px;
-  margin-bottom: 18px;
+  gap: 4px 14px;
+  margin-bottom: 12px;
   font-family: var(--rr-font-sans);
   font-size: 11px;
   color: var(--rr-muted);
@@ -391,15 +391,15 @@
   background: var(--rr-paper);
   border: 1px solid var(--rr-line);
   border-radius: var(--rr-radius);
-  padding: 24px clamp(20px, 4vw, 48px);
-  box-shadow: var(--rr-shadow-md);
+  padding: 16px clamp(16px, 3vw, 36px);
+  box-shadow: var(--rr-shadow-sm);
 }
 
 /* ==========================================================================
    段落
    ========================================================================== */
 .rr-para {
-  padding: 32px 0;
+  padding: 22px 0;
   border-bottom: 1px solid var(--rr-line-light);
   scroll-margin-top: 130px;
   transition: opacity 0.4s var(--rr-ease);
@@ -411,10 +411,10 @@
 
 .rr-para-head {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
   align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: 6px 12px;
+  margin-bottom: 10px;
 }
 
 .rr-para-no {
@@ -423,8 +423,7 @@
   font-weight: 500;
   color: var(--rr-muted);
   letter-spacing: 0.06em;
-  white-space: nowrap;
-  padding-top: 4px;
+  flex-shrink: 0;
 }
 
 .rr-audio-btns {
@@ -527,9 +526,9 @@
    ========================================================================== */
 .rr-jp-text {
   font-family: var(--rr-font-ja);
-  font-size: clamp(23px, 3.2vw, 32px);
-  line-height: 2.2;
-  letter-spacing: 0.015em;
+  font-size: clamp(22px, 3vw, 30px);
+  line-height: 2.0;
+  letter-spacing: 0.012em;
   color: var(--rr-ink);
   word-break: keep-all;
 }
@@ -570,10 +569,16 @@ ruby {
 
 rt {
   font-size: 0.4em;
-  color: var(--rr-muted);
+  color: #222;
   font-weight: 400;
   letter-spacing: 0;
   user-select: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  rt {
+    color: #ccc;
+  }
 }
 
 /* ---- ツールチップ（CSSのみ） ---- */
@@ -614,9 +619,9 @@ rt {
    詳細パネル
    ========================================================================== */
 .rr-detail {
-  margin-top: 18px;
+  margin-top: 12px;
   border: 1px solid var(--rr-line);
-  border-radius: 16px;
+  border-radius: 12px;
   overflow: hidden;
   background: rgba(255, 252, 247, 0.6);
 }
@@ -750,13 +755,13 @@ rt {
    フッター
    ========================================================================== */
 .rr-footer {
-  margin-top: 24px;
+  margin-top: 14px;
   text-align: center;
   color: var(--rr-muted);
   font-family: var(--rr-font-sans);
-  font-size: 12px;
-  line-height: 1.7;
-  opacity: 0.7;
+  font-size: 11px;
+  line-height: 1.6;
+  opacity: 0.6;
 }
 
 /* ==========================================================================
@@ -809,11 +814,11 @@ body.rr-no-color .rr-legend {
 /* コンパクトモード */
 body.rr-compact .rr-jp-text {
   font-family: var(--rr-font-sans);
-  font-size: clamp(19px, 2.6vw, 24px);
-  line-height: 1.85;
+  font-size: clamp(18px, 2.5vw, 22px);
+  line-height: 1.7;
 }
 body.rr-compact .rr-para {
-  padding: 20px 0;
+  padding: 14px 0;
 }
 
 /* 拡張モード（さらに大きな文字） */
@@ -827,8 +832,8 @@ body.rr-large .rr-jp-text {
    ========================================================================== */
 .rr-para.playing {
   background: rgba(188, 45, 30, 0.04);
-  margin: 0 -16px;
-  padding: 32px 16px;
+  margin: 0 -12px;
+  padding: 22px 12px;
   border-radius: var(--rr-radius);
   border-bottom-color: transparent;
   transition: background 0.3s var(--rr-ease);
@@ -850,8 +855,7 @@ body.rr-large .rr-jp-text {
 .rr-nav-row {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-top: 8px;
+  gap: 6px;
 }
 
 /* ==========================================================================
