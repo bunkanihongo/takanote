@@ -467,7 +467,9 @@ ruby {
 }
 
 rt {
-  font-size: 0.5em;
+  font-size: clamp(8px, 0.45em, 12px);
+  line-height: 1.15;
+}
   color: #222;
   font-weight: 400;
   letter-spacing: 0.02em;
