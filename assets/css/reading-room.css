@@ -1,51 +1,125 @@
-/* =====================
-   takanote 読解ルーム
-   改良版 CSS
-   ===================== */
+/* ==========================================================================
+   takanote 読解ルーム — v3（改良版）
+   Beautiful Japanese reading experience with full-featured tooling
+   ========================================================================== */
 
+/* ---- カスタムプロパティ ---- */
 :root {
-  --bg: #f7f3ec;
-  --paper: #fffdf8;
-  --ink: #25231f;
-  --muted: #7b746b;
-  --line: #ded6c9;
-  --accent: #c0392b;
-  --accent-light: #fce4e2;
-  --noun: #8c6b35;
-  --verb: #7a5c88;
-  --particle: #567d7a;
-  --adj: #9a5b4f;
-  --adverb: #6c7892;
-  --connector: #6f7d54;
-  --grammar: #a07352;
-  --radius: 18px;
-  --font-ja: "Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif;
-  --font-sans: -apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;
+  /* ベース */
+  --rr-bg: #f6f2eb;
+  --rr-paper: #fffcf7;
+  --rr-ink: #221f1b;
+  --rr-muted: #7a7368;
+  --rr-line: #dad1c2;
+  --rr-line-light: #e8e1d6;
+  --rr-accent: #bc2d1e;
+  --rr-accent-soft: #f3deda;
+  --rr-accent-glow: rgba(188, 45, 30, 0.08);
+
+  /* トークン色 */
+  --rr-noun: #8c6b35;
+  --rr-verb: #7a5c88;
+  --rr-particle: #567d7a;
+  --rr-adj: #9a5b4f;
+  --rr-adverb: #6c7892;
+  --rr-connector: #6f7d54;
+  --rr-grammar: #a07352;
+
+  /* 寸法 */
+  --rr-radius-sm: 12px;
+  --rr-radius: 22px;
+  --rr-radius-lg: 28px;
+
+  /* フォント */
+  --rr-font-ja: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", "Source Han Serif JP", serif;
+  --rr-font-sans: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+  --rr-font-mono: "SF Mono", "Noto Sans Mono", "Cascadia Code", monospace;
+
+  /* シャドウ */
+  --rr-shadow-sm: 0 1px 3px rgba(44, 38, 28, 0.06);
+  --rr-shadow-md: 0 4px 16px rgba(44, 38, 28, 0.07);
+  --rr-shadow-lg: 0 12px 40px rgba(44, 38, 28, 0.07);
+  --rr-shadow-xl: 0 20px 60px rgba(44, 38, 28, 0.08);
+
+  /* トランジション */
+  --rr-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* 阅读列表页面 */
+/* ---- ダークモード ---- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --rr-bg: #1b1917;
+    --rr-paper: #24211d;
+    --rr-ink: #e3dbd0;
+    --rr-muted: #9b9488;
+    --rr-line: #3e3932;
+    --rr-line-light: #34302a;
+    --rr-accent: #e86858;
+    --rr-accent-soft: #3a2825;
+    --rr-accent-glow: rgba(232, 104, 88, 0.1);
+
+    --rr-noun: #caa96b;
+    --rr-verb: #c09ad4;
+    --rr-particle: #7fb3af;
+    --rr-adj: #d99a8a;
+    --rr-adverb: #9aaccc;
+    --rr-connector: #99af7a;
+    --rr-grammar: #c9956e;
+
+    --rr-shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+    --rr-shadow-md: 0 4px 16px rgba(0,0,0,0.35);
+    --rr-shadow-lg: 0 12px 40px rgba(0,0,0,0.4);
+    --rr-shadow-xl: 0 20px 60px rgba(0,0,0,0.45);
+  }
+}
+
+/* ==========================================================================
+   レイアウト
+   ========================================================================== */
 .reading-room-layout {
   max-width: 800px;
   margin: 0 auto;
+  font-family: var(--rr-font-sans);
 }
 
+/* ==========================================================================
+   ヘッダー
+   ========================================================================== */
 .rr-header {
-  margin-bottom: 28px;
+  margin-bottom: 32px;
+  text-align: center;
 }
 
 .rr-header h2 {
-  font-family: var(--font-ja);
-  font-size: 26px;
-  font-weight: 600;
-  margin-bottom: 6px;
+  font-family: var(--rr-font-ja);
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin: 0 0 10px;
+  color: var(--rr-ink);
 }
 
-.rr-desc {
-  color: var(--muted);
-  font-size: 14px;
+.rr-header .rr-subtitle {
+  color: var(--rr-muted);
+  font-size: 15px;
   line-height: 1.7;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
+.rr-header .rr-kicker {
+  font-family: var(--rr-font-sans);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rr-accent);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   カード一覧
+   ========================================================================== */
 .reading-list {
   display: flex;
   flex-direction: column;
@@ -53,464 +127,811 @@
 }
 
 .reading-card {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 22px 26px;
+  background: var(--rr-paper);
+  border: 1px solid var(--rr-line);
+  border-radius: var(--rr-radius);
+  padding: 26px 30px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.25s var(--rr-ease);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.reading-card::after {
+  content: "→";
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: var(--rr-muted);
+  opacity: 0;
+  transition: all 0.25s var(--rr-ease);
 }
 
 .reading-card:hover {
-  border-color: var(--accent);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(64,50,30,0.06);
+  border-color: var(--rr-accent);
+  transform: translateY(-3px);
+  box-shadow: var(--rr-shadow-lg);
+}
+
+.reading-card:hover::after {
+  opacity: 0.5;
+  right: 20px;
+}
+
+.reading-card:active {
+  transform: translateY(-1px) scale(0.995);
+}
+
+.reading-card .card-kicker {
+  font-family: var(--rr-font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rr-accent);
+  margin-bottom: 2px;
 }
 
 .reading-card h3 {
-  font-family: var(--font-ja);
-  font-size: 17px;
+  font-family: var(--rr-font-ja);
+  font-size: 18px;
   font-weight: 600;
-  margin-bottom: 4px;
-  color: var(--ink);
+  line-height: 1.5;
+  margin: 0;
+  color: var(--rr-ink);
 }
 
-.reading-card .meta {
+.reading-card .card-meta {
+  color: var(--rr-muted);
   font-size: 13px;
-  color: var(--muted);
+  line-height: 1.6;
+  margin-top: 2px;
 }
 
-/* =====================
-   阅读器主界面
-   ===================== */
-.reader-container {
+.reading-card .card-badge {
+  display: inline-block;
+  background: var(--rr-accent-soft);
+  color: var(--rr-accent);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 99px;
+  margin-top: 6px;
+  align-self: flex-start;
+}
+
+/* ==========================================================================
+   読解ビュー（メイン）
+   ========================================================================== */
+.rr-reader {
   max-width: 860px;
   margin: 0 auto;
 }
 
-.reader-header {
-  margin-bottom: 20px;
+/* プログレスバー */
+.rr-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: var(--rr-accent);
+  width: 0%;
+  z-index: 999;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 8px var(--rr-accent-glow);
 }
 
-.back-btn {
+/* ---- 戻る ---- */
+.rr-back-wrap {
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rr-back-btn {
   background: none;
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: 6px 14px;
-  font-family: inherit;
+  border: 1px solid var(--rr-line);
+  border-radius: 99px;
+  padding: 7px 18px;
+  font-family: var(--rr-font-sans);
   font-size: 13px;
-  color: var(--muted);
+  color: var(--rr-muted);
   cursor: pointer;
-  margin-bottom: 14px;
-  transition: 0.15s;
+  transition: all 0.2s var(--rr-ease);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.back-btn:hover {
-  background: var(--accent-light);
-  color: var(--accent);
-  border-color: var(--accent);
+.rr-back-btn:hover {
+  background: var(--rr-accent-soft);
+  color: var(--rr-accent);
+  border-color: var(--rr-accent);
 }
 
-.reader-title {
-  font-family: var(--font-ja);
-  font-size: clamp(24px, 3.5vw, 36px);
-  line-height: 1.3;
-  font-weight: 600;
-  margin-bottom: 8px;
+.rr-back-btn:active {
+  transform: scale(0.97);
 }
 
-.reader-subtitle {
-  color: var(--muted);
-  font-size: 14px;
+/* ---- タイトル ---- */
+.rr-reader-header {
+  margin-bottom: 24px;
+}
+
+.rr-reader-title {
+  font-family: var(--rr-font-ja);
+  font-size: clamp(26px, 3.8vw, 38px);
+  line-height: 1.35;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  margin: 0 0 8px;
+  color: var(--rr-ink);
+}
+
+.rr-reader-subtitle {
+  color: var(--rr-muted);
+  font-size: 15px;
   line-height: 1.6;
+  margin: 0;
 }
 
-/* =====================
-   工具栏
-   ===================== */
-.reader-toolbar {
+/* ---- ツールバー ---- */
+.rr-toolbar {
   position: sticky;
   top: 60px;
-  z-index: 20;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  background: rgba(247,243,236,0.95);
-  backdrop-filter: blur(8px);
+  z-index: 30;
+  background: rgba(246, 242, 235, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--rr-line);
+  border-bottom: 1px solid var(--rr-line);
   padding: 10px 0;
-  margin-bottom: 22px;
+  margin: 0 0 20px;
 }
 
-.toolbar-inner {
+@media (prefers-color-scheme: dark) {
+  .rr-toolbar {
+    background: rgba(27, 25, 23, 0.92);
+  }
+}
+
+.rr-toolbar-inner {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
   align-items: center;
 }
 
-.toolbar-btn {
-  font-family: var(--font-sans);
-  font-size: 13px;
-  border: 1px solid var(--line);
-  background: #fffaf1;
-  color: var(--ink);
-  border-radius: 20px;
-  padding: 6px 12px;
+.rr-toolbar-btn {
+  font-family: var(--rr-font-sans);
+  font-size: 12px;
+  border: 1px solid var(--rr-line);
+  background: var(--rr-paper);
+  color: var(--rr-ink);
+  border-radius: 99px;
+  padding: 5px 13px;
   cursor: pointer;
   white-space: nowrap;
-  transition: 0.15s;
+  transition: all 0.18s var(--rr-ease);
+  user-select: none;
+  font-weight: 450;
 }
 
-.toolbar-btn:hover {
-  background: var(--accent-light);
+.rr-toolbar-btn:hover {
+  background: var(--rr-accent-soft);
+  border-color: var(--rr-accent);
+  color: var(--rr-accent);
 }
 
-.toolbar-btn.active {
-  background: var(--accent);
+.rr-toolbar-btn.active {
+  background: var(--rr-accent);
   color: #fff;
-  border-color: var(--accent);
+  border-color: var(--rr-accent);
 }
 
-.loop-toggle {
+.rr-toolbar-btn:active {
+  transform: scale(0.95);
+}
+
+.rr-toolbar-sep {
+  width: 1px;
+  height: 22px;
+  background: var(--rr-line);
+  margin: 0 4px;
+}
+
+.rr-loop-toggle {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-family: var(--font-sans);
-  font-size: 13px;
-  margin-left: 4px;
+  font-family: var(--rr-font-sans);
+  font-size: 12px;
+  color: var(--rr-muted);
+  cursor: pointer;
+  user-select: none;
 }
 
-.loop-toggle input {
-  vertical-align: -2px;
+.rr-loop-toggle input {
+  accent-color: var(--rr-accent);
 }
 
-/* =====================
-   图例
-   ===================== */
-.legend {
+/* ---- 凡例 ---- */
+.rr-legend {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 16px;
-  margin-bottom: 20px;
-  color: var(--muted);
-  font-size: 12px;
-  font-family: var(--font-sans);
+  gap: 6px 18px;
+  margin-bottom: 18px;
+  font-family: var(--rr-font-sans);
+  font-size: 11px;
+  color: var(--rr-muted);
+  opacity: 0.85;
 }
 
-.legend-item::before {
+.rr-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.rr-legend-item::before {
   content: "";
-  display: inline-block;
-  width: 20px;
+  width: 22px;
   height: 3px;
-  margin-right: 5px;
-  vertical-align: middle;
   border-radius: 99px;
   background: currentColor;
 }
 
-/* =====================
-   文章主体
-   ===================== */
-.article-body {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 20px clamp(18px, 3.8vw, 42px);
-  box-shadow: 0 16px 40px rgba(64,50,30,0.06);
+/* ---- 本文 ---- */
+.rr-article {
+  background: var(--rr-paper);
+  border: 1px solid var(--rr-line);
+  border-radius: var(--rr-radius);
+  padding: 24px clamp(20px, 4vw, 48px);
+  box-shadow: var(--rr-shadow-md);
 }
 
-/* 段落 */
-.para {
-  padding: 28px 0;
-  border-bottom: 1px solid var(--line);
+/* ==========================================================================
+   段落
+   ========================================================================== */
+.rr-para {
+  padding: 32px 0;
+  border-bottom: 1px solid var(--rr-line-light);
+  scroll-margin-top: 130px;
+  transition: opacity 0.4s var(--rr-ease);
 }
 
-.para:last-child {
+.rr-para:last-child {
   border-bottom: none;
 }
 
-.para-head {
+.rr-para-head {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 12px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
-.para-no {
-  font-family: var(--font-sans);
-  font-size: 12px;
-  color: var(--muted);
-  letter-spacing: 0.08em;
+.rr-para-no {
+  font-family: var(--rr-font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--rr-muted);
+  letter-spacing: 0.06em;
   white-space: nowrap;
+  padding-top: 4px;
 }
 
-.audio-btns {
+.rr-audio-btns {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
 }
 
-.audio-btn {
+.rr-audio-btn {
   border: none;
-  border-radius: 16px;
-  padding: 4px 12px;
-  font-family: var(--font-sans);
+  border-radius: 99px;
+  padding: 5px 14px;
+  font-family: var(--rr-font-sans);
   font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.18s var(--rr-ease);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.rr-audio-btn:active {
+  transform: scale(0.95);
+}
+
+.rr-audio-btn.normal {
+  background: #f3deda;
+  color: #a93226;
+}
+
+.rr-audio-btn.normal:hover {
+  background: #eccec7;
+}
+
+.rr-audio-btn.slow {
+  background: #ddeae7;
+  color: #226b5c;
+}
+
+.rr-audio-btn.slow:hover {
+  background: #c8ddd8;
+}
+
+@media (prefers-color-scheme: dark) {
+  .rr-audio-btn.normal {
+    background: #4a2a24;
+    color: #e86858;
+  }
+  .rr-audio-btn.normal:hover {
+    background: #5a3530;
+  }
+  .rr-audio-btn.slow {
+    background: #1d3d36;
+    color: #5cc4ae;
+  }
+  .rr-audio-btn.slow:hover {
+    background: #265147;
+  }
+}
+
+.rr-audio-btn.playing {
+  opacity: 0.65;
+  animation: rr-audio-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes rr-audio-pulse {
+  0%, 100% { opacity: 0.65; }
+  50% { opacity: 0.45; }
+}
+
+/* ---- 段落ナビ ---- */
+.rr-para-nav {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.rr-para-nav-btn {
+  background: none;
+  border: 1px solid var(--rr-line);
+  border-radius: 99px;
+  padding: 4px 12px;
+  font-family: var(--rr-font-sans);
+  font-size: 11px;
+  color: var(--rr-muted);
   cursor: pointer;
   transition: 0.15s;
 }
 
-.audio-btn.normal {
-  background: #ffede8;
-  color: #a93226;
+.rr-para-nav-btn:hover {
+  background: var(--rr-paper);
+  border-color: var(--rr-accent);
+  color: var(--rr-accent);
 }
 
-.audio-btn.normal:hover {
-  background: #fcd4cb;
-}
-
-.audio-btn.slow {
-  background: #e8f0ed;
-  color: #2d6a5e;
-}
-
-.audio-btn.slow:hover {
-  background: #cde0d9;
-}
-
-.audio-btn.playing {
-  opacity: 0.6;
-}
-
-/* 日文正文 */
-.jp-text {
-  font-family: var(--font-ja);
-  font-size: clamp(22px, 3.1vw, 31px);
+/* ==========================================================================
+   日本語テキスト（トークン）
+   ========================================================================== */
+.rr-jp-text {
+  font-family: var(--rr-font-ja);
+  font-size: clamp(23px, 3.2vw, 32px);
   line-height: 2.2;
   letter-spacing: 0.015em;
+  color: var(--rr-ink);
+  word-break: keep-all;
 }
 
-/* 单词 token */
-.tok {
+.rr-tok {
   display: inline;
-  margin-inline-end: 0.11em;
-  padding: 0 0.02em 2px;
-  border-bottom: 2px solid transparent;
-  border-radius: 2px;
+  padding: 1px 0.04em 2px;
+  border-bottom: 2.5px solid transparent;
+  border-radius: 3px;
   position: relative;
   cursor: help;
+  transition: background 0.15s;
 }
 
-.tok:hover {
+.rr-tok:hover {
   background: #f7eedc;
 }
 
-.tok.noun { border-bottom-color: var(--noun); }
-.tok.verb { border-bottom-color: var(--verb); }
-.tok.particle { border-bottom-color: var(--particle); }
-.tok.adj { border-bottom-color: var(--adj); }
-.tok.adverb { border-bottom-color: var(--adverb); }
-.tok.connector { border-bottom-color: var(--connector); }
-.tok.grammar { border-bottom-color: var(--grammar); }
+@media (prefers-color-scheme: dark) {
+  .rr-tok:hover {
+    background: rgba(232, 104, 88, 0.12);
+  }
+}
 
-/* 工具提示 */
-.tok-tooltip {
-  display: none;
+/* 品詞色 */
+.rr-tok.noun       { border-bottom-color: var(--rr-noun); }
+.rr-tok.verb       { border-bottom-color: var(--rr-verb); }
+.rr-tok.particle   { border-bottom-color: var(--rr-particle); }
+.rr-tok.adj        { border-bottom-color: var(--rr-adj); }
+.rr-tok.adverb     { border-bottom-color: var(--rr-adverb); }
+.rr-tok.connector  { border-bottom-color: var(--rr-connector); }
+.rr-tok.grammar    { border-bottom-color: var(--rr-grammar); }
+
+/* ---- ルビ ---- */
+ruby {
+  ruby-align: center;
+}
+
+rt {
+  font-size: 0.4em;
+  color: var(--rr-muted);
+  font-weight: 400;
+  letter-spacing: 0;
+  user-select: none;
+}
+
+/* ---- ツールチップ（CSSのみ） ---- */
+.rr-tok[data-note]::after {
+  content: attr(data-note);
   position: absolute;
-  bottom: calc(100% + 4px);
+  bottom: calc(100% + 6px);
   left: 50%;
-  transform: translateX(-50%);
-  padding: 6px 9px;
+  transform: translateX(-50%) scale(0.9);
+  padding: 5px 10px;
   background: #2c2925;
-  color: #f7f3ec;
+  color: #f0eae0;
   border-radius: 8px;
-  font-family: var(--font-sans);
+  font-family: var(--rr-font-sans);
   font-size: 12px;
   line-height: 1.4;
   white-space: nowrap;
   z-index: 30;
   pointer-events: none;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+  opacity: 0;
+  transition: all 0.18s var(--rr-ease);
 }
 
-.tok:hover .tok-tooltip {
-  display: block;
+.rr-tok[data-note]:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
 }
 
-/* ruby 注音 */
-rt {
-  font-size: 0.42em;
-  color: #6b6259;
-  font-weight: 400;
-  user-select: none;
+@media (prefers-color-scheme: dark) {
+  .rr-tok[data-note]::after {
+    background: #3a3632;
+    color: #e3dbd0;
+  }
 }
 
-/* =====================
-   详情面板
-   ===================== */
-.detail-panel {
-  margin-top: 16px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
+/* ==========================================================================
+   詳細パネル
+   ========================================================================== */
+.rr-detail {
+  margin-top: 18px;
+  border: 1px solid var(--rr-line);
+  border-radius: 16px;
   overflow: hidden;
-  background: #fffbf4;
+  background: rgba(255, 252, 247, 0.6);
 }
 
-.detail-summary {
+@media (prefers-color-scheme: dark) {
+  .rr-detail {
+    background: rgba(36, 33, 29, 0.6);
+  }
+}
+
+.rr-detail-summary {
   cursor: pointer;
   list-style: none;
-  padding: 11px 16px;
-  font-family: var(--font-sans);
-  font-size: 14px;
+  padding: 12px 18px;
+  font-family: var(--rr-font-sans);
+  font-size: 13px;
   font-weight: 500;
-  color: #463f37;
+  color: var(--rr-muted);
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   user-select: none;
+  transition: color 0.15s;
 }
 
-.detail-summary::before {
-  content: "▶";
-  font-size: 9px;
-  transition: transform 0.2s;
+.rr-detail-summary:hover {
+  color: var(--rr-ink);
 }
 
-.detail-panel[open] .detail-summary::before {
+.rr-detail-summary::before {
+  content: "▸";
+  font-size: 10px;
+  transform: rotate(0);
+  transition: transform 0.25s var(--rr-ease);
+  display: inline-block;
+}
+
+.rr-detail[open] .rr-detail-summary::before {
   transform: rotate(90deg);
 }
 
-.detail-summary::-webkit-details-marker {
+.rr-detail-summary::-webkit-details-marker {
   display: none;
 }
 
-.detail-content {
-  padding: 14px 18px 18px;
-  border-top: 1px solid var(--line);
-  color: #3a352f;
-  font-family: var(--font-sans);
+.rr-detail-body {
+  padding: 0 18px 18px;
+  border-top: 1px solid var(--rr-line-light);
+  color: var(--rr-ink);
+  font-family: var(--rr-font-sans);
   font-size: 14px;
   line-height: 1.8;
+  animation: rr-slide-down 0.25s var(--rr-ease);
 }
 
-.detail-content p {
-  margin: 0 0 10px;
+@keyframes rr-slide-down {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.detail-content p:last-child {
-  margin-bottom: 0;
+/* 訳 */
+.rr-trans-block {
+  margin-bottom: 12px;
 }
 
-.translation-block {
-  margin-bottom: 10px;
-}
-
-.translation-block .label {
-  font-weight: 600;
-  color: #5d447a;
+.rr-trans-label {
   display: block;
-  font-size: 11px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7a5580;
   margin-bottom: 2px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
 }
 
-.literal-trans {
-  color: var(--muted);
-  font-size: 13px;
-  margin: 8px 0;
-}
-
-.grammar-note {
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px dotted var(--line);
-}
-
-.grammar-note .label {
-  font-weight: 600;
-  color: var(--grammar);
-  display: block;
-  font-size: 11px;
-  margin-bottom: 3px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.vocab-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 6px 12px;
-  margin-top: 10px;
-}
-
-.vocab-item {
-  border-top: 1px dotted var(--line);
-  padding-top: 6px;
-  font-size: 13px;
-}
-
-.vocab-item strong {
-  font-weight: 600;
-}
-
-/* =====================
-   开关效果
-   ===================== */
-body.hide-ruby rt { display: none; }
-body.no-gap .tok { margin-inline-end: 0; }
-body.no-color .tok { border-bottom-color: transparent !important; }
-body.no-color .legend { display: none; }
-body.compact .jp-text {
-  font-family: var(--font-sans);
-  font-size: clamp(19px, 2.6vw, 25px);
-  line-height: 1.85;
-}
-
-/* =====================
-   页面说明
-   ===================== */
-.reader-note {
-  margin-top: 24px;
-  color: var(--muted);
-  font-family: var(--font-sans);
-  font-size: 13px;
+.rr-trans-text {
+  font-size: 14.5px;
   line-height: 1.7;
 }
 
-/* =====================
-   错误提示
-   ===================== */
-.error-msg {
-  color: var(--accent);
-  font-family: var(--font-sans);
+.rr-literal {
+  color: var(--rr-muted);
+  font-size: 13px;
+  margin: 8px 0;
+  padding-left: 2px;
+}
+
+/* 文法 */
+.rr-grammar-section {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dotted var(--rr-line);
+}
+
+.rr-grammar-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rr-grammar);
+  margin-bottom: 3px;
+}
+
+/* 語彙 */
+.rr-vocab-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 6px 14px;
+  margin-top: 10px;
+}
+
+.rr-vocab-item {
+  font-size: 13px;
+  line-height: 1.6;
+  border-top: 1px dotted var(--rr-line-light);
+  padding-top: 5px;
+}
+
+.rr-vocab-item strong {
+  font-weight: 600;
+  color: var(--rr-ink);
+}
+
+.rr-vocab-item .rr-vocab-reading {
+  color: var(--rr-muted);
+  font-size: 11px;
+}
+
+/* ==========================================================================
+   フッター
+   ========================================================================== */
+.rr-footer {
+  margin-top: 24px;
+  text-align: center;
+  color: var(--rr-muted);
+  font-family: var(--rr-font-sans);
+  font-size: 12px;
+  line-height: 1.7;
+  opacity: 0.7;
+}
+
+/* ==========================================================================
+   エラー
+   ========================================================================== */
+.rr-error {
+  color: var(--rr-accent);
+  font-family: var(--rr-font-sans);
   font-size: 14px;
+  padding: 30px 0;
+  text-align: center;
+}
+
+.rr-loading {
+  color: var(--rr-muted);
+  font-family: var(--rr-font-sans);
+  font-size: 14px;
+  padding: 30px 0;
+  text-align: center;
+  animation: rr-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes rr-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+/* ==========================================================================
+   トグル機能
+   ========================================================================== */
+
+/* ルビ非表示 */
+body.rr-hide-ruby rt {
+  display: none !important;
+}
+
+/* 間隔なし（compact token spacing） */
+body.rr-no-gap .rr-tok {
+  margin-inline-end: 0 !important;
+}
+
+/* 品詞色オフ */
+body.rr-no-color .rr-tok {
+  border-bottom-color: transparent !important;
+}
+body.rr-no-color .rr-legend {
+  display: none !important;
+}
+
+/* コンパクトモード */
+body.rr-compact .rr-jp-text {
+  font-family: var(--rr-font-sans);
+  font-size: clamp(19px, 2.6vw, 24px);
+  line-height: 1.85;
+}
+body.rr-compact .rr-para {
   padding: 20px 0;
 }
 
-/* =====================
-   响应式
-   ===================== */
-@media (max-width: 640px) {
-  .reader-toolbar {
-    top: 55px;
+/* 拡張モード（さらに大きな文字） */
+body.rr-large .rr-jp-text {
+  font-size: clamp(26px, 3.6vw, 36px);
+  line-height: 2.3;
+}
+
+/* ==========================================================================
+   再生中ハイライト
+   ========================================================================== */
+.rr-para.playing {
+  background: rgba(188, 45, 30, 0.04);
+  margin: 0 -16px;
+  padding: 32px 16px;
+  border-radius: var(--rr-radius);
+  border-bottom-color: transparent;
+  transition: background 0.3s var(--rr-ease);
+}
+
+@media (prefers-color-scheme: dark) {
+  .rr-para.playing {
+    background: rgba(232, 104, 88, 0.06);
+  }
+}
+
+/* ==========================================================================
+   スクロールアニメーション
+   ========================================================================== */
+
+/* ==========================================================================
+   ナビゲーションボタンスタイル
+   ========================================================================== */
+.rr-nav-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* ==========================================================================
+   レスポンシブ
+   ========================================================================== */
+@media (max-width: 720px) {
+  .reading-card {
+    padding: 20px 22px;
+  }
+  .reading-card::after { display: none; }
+  .reading-card h3 { font-size: 16px; }
+
+  .rr-reader-title {
+    font-size: 22px;
   }
 
-  .para-head {
+  .rr-toolbar {
+    top: 50px;
+    padding: 8px 0;
+  }
+
+  .rr-toolbar-btn {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  .rr-para-head {
     flex-direction: column;
     gap: 8px;
   }
 
-  .audio-btns {
+  .rr-audio-btns {
     justify-content: flex-start;
   }
 
-  .jp-text {
+  .rr-jp-text {
     line-height: 2.05;
+    font-size: clamp(20px, 4.5vw, 24px);
   }
 
-  .tok-tooltip {
+  .rr-tok[data-note]::after {
     white-space: normal;
-    max-width: 200px;
+    max-width: 220px;
+  }
+
+  .rr-detail-body {
+    font-size: 13px;
+    padding: 0 14px 14px;
+  }
+
+  .rr-vocab-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* タブレット縦 */
+@media (min-width: 721px) and (max-width: 1024px) {
+  .rr-jp-text {
+    font-size: 26px;
+  }
+}
+
+/* プリント */
+@media print {
+  .rr-toolbar,
+  .rr-back-btn,
+  .rr-audio-btns,
+  .rr-para-nav,
+  .rr-progress-bar,
+  .rr-footer {
+    display: none !important;
+  }
+
+  .rr-article {
+    box-shadow: none;
+    border: none;
+    padding: 0;
+  }
+
+  .rr-para {
+    page-break-inside: avoid;
   }
 }
