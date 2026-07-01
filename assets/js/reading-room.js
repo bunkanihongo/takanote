@@ -62,12 +62,12 @@
   // ======================================================================
   const READING_LIST = [
     {
-      id: 'poster',
+      id: 'nihon-no-poster',
       title: '日本のポスターはなぜ情報量が多いのか',
       kicker: '中級〜上級',
       desc: '文化と流通の構造を読み解く',
       badge: '8段落',
-      file: '/takanote/assets/readings/poster.json'
+      file: '/takanote/assets/readings/nihon-no-poster.json'
     }
   ];
 
@@ -91,9 +91,8 @@
       const card = document.createElement('div');
       card.className = 'reading-card';
       card.innerHTML = `
-        <div class="card-kicker">${escHtml(r.kicker)}</div>
+        <span class="card-kicker">${escHtml(r.kicker)}</span>
         <h3>${escHtml(r.title)}</h3>
-        <div class="card-meta">${escHtml(r.desc)}</div>
         <span class="card-badge">${escHtml(r.badge)}</span>
       `;
       card.addEventListener('click', () => {

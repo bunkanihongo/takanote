@@ -1,6 +1,6 @@
 [
   {
-    "id": "poster",
+    "id": "nihon-no-poster",
     "title": "日本のポスターはなぜ情報量が多いのか",
     "subtitle": "文化と流通の構造を読み解く — 日本語中級〜上級向け",
     "level": "中級〜上級",
@@ -78,7 +78,7 @@
             "p": "particle"
           }
         ],
-        "audio": "assets/audio/poster/p1.mp3"
+        "audio": "assets/audio/nihon-no-poster/p1.mp3"
       },
       {
         "id": "p2",
@@ -244,7 +244,7 @@
             "n": "看到了 / came across"
           }
         ],
-        "audio": "assets/audio/poster/p2.mp3"
+        "audio": "assets/audio/nihon-no-poster/p2.mp3"
       },
       {
         "id": "p3",
@@ -359,7 +359,7 @@
             "p": "verb"
           }
         ],
-        "audio": "assets/audio/poster/p3.mp3"
+        "audio": "assets/audio/nihon-no-poster/p3.mp3"
       },
       {
         "id": "p4",
@@ -661,7 +661,7 @@
             "p": "adj"
           }
         ],
-        "audio": "assets/audio/poster/p4.mp3"
+        "audio": "assets/audio/nihon-no-poster/p4.mp3"
       },
       {
         "id": "p5",
@@ -927,7 +927,7 @@
             "n": "必须〜 / must"
           }
         ],
-        "audio": "assets/audio/poster/p5.mp3"
+        "audio": "assets/audio/nihon-no-poster/p5.mp3"
       },
       {
         "id": "p6",
@@ -1095,7 +1095,7 @@
             "p": "verb"
           }
         ],
-        "audio": "assets/audio/poster/p6.mp3"
+        "audio": "assets/audio/nihon-no-poster/p6.mp3"
       },
       {
         "id": "p7",
@@ -1311,7 +1311,7 @@
             "n": "变得〜下去 / become more and more"
           }
         ],
-        "audio": "assets/audio/poster/p7.mp3"
+        "audio": "assets/audio/nihon-no-poster/p7.mp3"
       },
       {
         "id": "p8",
@@ -1566,7 +1566,7 @@
             "n": "可能是 / might be"
           }
         ],
-        "audio": "assets/audio/poster/p8.mp3"
+        "audio": "assets/audio/nihon-no-poster/p8.mp3"
       }
     ]
   }
