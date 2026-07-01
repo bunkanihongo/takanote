@@ -26,7 +26,7 @@
     // CSS
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = '/takanote/assets/css/reading-room.css';
+    link.href = '/takanote/assets/css/reading-room.css?v3';
     document.head.appendChild(link);
 
     // プログレスバー
