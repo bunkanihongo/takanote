@@ -31,3 +31,4 @@ assets/js/dist
 .DS_Store
 Thumbs.db
 .venv/
+.venv-tts/
