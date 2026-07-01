@@ -37,35 +37,24 @@
     // スクロール進捗
     window.addEventListener('scroll', updateProgress, { passive: true });
 
-    // ルート（pathname-based）
-    const slug = extractSlugFromPath();
-    if (slug) {
-      // popstate で戻る時はフル再レンダーの代わりに loadReading
-      loadReading(slug);
+    // ルート（?read=slug パラメータ）
+    const params = new URLSearchParams(window.location.search);
+    const readingId = params.get('read');
+    if (readingId) {
+      loadReading(readingId);
     } else {
       renderList();
     }
 
-    // pathname 変更を検知（popstate / pushState）
     window.addEventListener('popstate', () => {
-      const s = extractSlugFromPath();
-      if (s) {
-        loadReading(s);
+      const p = new URLSearchParams(window.location.search);
+      const id = p.get('read');
+      if (id) {
+        loadReading(id);
       } else {
         renderList();
       }
     });
-
-    /** /takanote/reading-room/SLUG/ → SLUG を抽出 */
-    function extractSlugFromPath() {
-      const p = window.location.pathname.replace(/\/$/, '');
-      const base = '/takanote/reading-room';
-      if (p === base) return '';
-      if (p.startsWith(base + '/')) {
-        return p.slice(base.length + 1);
-      }
-      return '';
-    }
   });
 
   // ======================================================================
@@ -127,7 +116,7 @@
 
       const a = document.createElement('a');
       a.textContent = r.title;
-      a.href = `/takanote/reading-room/${r.id}/`;
+      a.href = `/takanote/reading-room/?read=${r.id}`;
 
       const dash = document.createElement('span');
       dash.className = 'dash flex-grow-1';
@@ -143,7 +132,7 @@
       li.addEventListener('click', (e) => {
         e.preventDefault();
         loadReading(r.id);
-        history.pushState({}, '', `/takanote/reading-room/${r.id}/`);
+        history.pushState({}, '', `/takanote/reading-room/?read=${r.id}`);
       });
 
       ul.appendChild(li);
