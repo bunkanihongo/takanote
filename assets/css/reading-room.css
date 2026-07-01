@@ -273,13 +273,6 @@
   color: var(--rr-ink);
 }
 
-.rr-reader-subtitle {
-  color: var(--rr-muted);
-  font-size: 15px;
-  line-height: 1.6;
-  margin: 0;
-}
-
 /* ---- ツールバー ---- */
 .rr-toolbar {
   position: sticky;
@@ -744,19 +737,6 @@ rt {
 }
 
 /* ==========================================================================
-   フッター
-   ========================================================================== */
-.rr-footer {
-  margin-top: 14px;
-  text-align: center;
-  color: var(--rr-muted);
-  font-family: var(--rr-font-sans);
-  font-size: 11px;
-  line-height: 1.6;
-  opacity: 0.6;
-}
-
-/* ==========================================================================
    エラー
    ========================================================================== */
 .rr-error {
@@ -929,8 +909,7 @@ body.rr-large .rr-jp-text {
   .rr-back-btn,
   .rr-audio-btns,
   .rr-nav-inline,
-  .rr-progress-bar,
-  .rr-footer {
+  .rr-progress-bar {
     display: none !important;
   }
 

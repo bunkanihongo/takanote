@@ -170,13 +170,10 @@
 
     wrapper.appendChild(backWrap);
 
-    // ヘッダー
+    // タイトル
     const hdr = document.createElement('div');
     hdr.className = 'rr-reader-header';
-    hdr.innerHTML = `
-      <h1 class="rr-reader-title">${escHtml(data.title)}</h1>
-      ${data.subtitle ? `<p class="rr-reader-subtitle">${escHtml(data.subtitle)}</p>` : ''}
-    `;
+    hdr.innerHTML = `<h1 class="rr-reader-title">${escHtml(data.title)}</h1>`;
     wrapper.appendChild(hdr);
 
     // ツールバー
@@ -196,13 +193,7 @@
 
     wrapper.appendChild(article);
 
-    // フッター
-    if (data.has_audio) {
-      const footer = document.createElement('div');
-      footer.className = 'rr-footer';
-      footer.innerHTML = '🔊 音声は Microsoft Edge ニューラル音声（ja‑JP‑NanamiNeural）で合成しています。';
-      wrapper.appendChild(footer);
-    }
+
 
     container.appendChild(wrapper);
 
