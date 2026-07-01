@@ -5,7 +5,7 @@ categories: [記事]
 tags: [文化, デザイン, 中級, 上級]
 ---
 
-> 📖 [読解ルームで詳細を読む](/takanote/reading-room/?read=nihon-no-poster) — 逐語訳・文法解説・音声練習付き
+> 📖 [読解ルームで詳細を読む](/takanote/reading-room/nihon-no-poster/) — 逐語訳・文法解説・音声練習付き
 
 X（旧Twitter）で、日本のポスターはとても複雑で、いつも文字が多く、情報量が過剰なのではないか、という議論を目にした。
 
