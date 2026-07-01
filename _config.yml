@@ -27,7 +27,7 @@ social:
 
 theme_mode: # [light | dark]
 
-avatar:
+avatar: /assets/img/repo-icon.png
 
 toc: true
 

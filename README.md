@@ -1,3 +1,8 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/bunkanihongo/takanote/main/assets/img/reading-room-original.png">
+  <img src="https://raw.githubusercontent.com/bunkanihongo/takanote/main/assets/img/reading-room-original.png" alt="たかのーと" width="400">
+</picture>
+
 # 📝 たかのーと — 日本語学習ノート
 
 Chirpy Jekyll テーマで作られた日本語学習ブログです。
