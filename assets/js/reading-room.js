@@ -165,7 +165,6 @@
     // 残段落表示
     const paraCount = document.createElement('span');
     paraCount.className = 'rr-para-count';
-    paraCount.style.cssText = 'font-size:12px;color:var(--rr-muted);';
     paraCount.textContent = `${data.paragraphs.length}段落`;
     backWrap.appendChild(paraCount);
 
@@ -301,10 +300,10 @@
     ].forEach(([label, cls]) => {
       const span = document.createElement('span');
       span.className = `rr-legend-item`;
-      span.style.setProperty('color', `var(--rr-${cls})`);
-      // 色線
+      span.style.color = `var(--rr-${cls})`;
       const dot = document.createElement('span');
-      dot.style.cssText = `width:22px;height:3px;border-radius:99px;background:var(--rr-${cls});display:inline-block;margin-right:5px;`;
+      dot.className = 'rr-legend-dot';
+      dot.style.background = `var(--rr-${cls})`;
       span.appendChild(dot);
       span.appendChild(document.createTextNode(label));
       l.appendChild(span);
@@ -382,8 +381,6 @@
     sec.appendChild(head);
 
     // ナビボタン（段落間）
-    const navRow = document.createElement('div');
-    navRow.className = 'rr-nav-row';
     const prevBtn = document.createElement('button');
     prevBtn.className = 'rr-para-nav-btn';
     prevBtn.textContent = '↑ 前';
@@ -396,12 +393,8 @@
     nextBtn.addEventListener('click', () => scrollToPara(idx + 1));
     if (idx === currentData.paragraphs.length - 1) nextBtn.style.visibility = 'hidden';
 
-    navRow.appendChild(prevBtn);
-    navRow.appendChild(nextBtn);
-    // ナビは段落の最初に隠し配置（インライン）
-    // → 代わりに段落ヘッダーの右側に配置
     const navInline = document.createElement('div');
-    navInline.style.cssText = 'display:flex;gap:4px;margin-left:auto;';
+    navInline.className = 'rr-nav-inline';
     navInline.appendChild(prevBtn);
     navInline.appendChild(nextBtn);
     head.appendChild(navInline);
@@ -460,10 +453,10 @@
       } else {
         span.textContent = w.s;
         if (w.r) {
-          const small = document.createElement('small');
-          small.textContent = `(${w.r})`;
-          small.style.cssText = 'font-size:0.5em;color:var(--rr-muted);vertical-align:super;';
-          span.appendChild(small);
+          const sup = document.createElement('sup');
+          sup.textContent = `(${w.r})`;
+          sup.style.cssText = 'font-size:0.5em;color:var(--rr-muted);';
+          span.appendChild(sup);
         }
       }
 
