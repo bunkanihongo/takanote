@@ -96,34 +96,61 @@
     container.innerHTML = '';
     document.title = '読解ルーム | たかのーと';
 
-    const h = document.createElement('div');
-    h.className = 'rr-header';
-    h.innerHTML = `
-      <div class="rr-kicker">READING ROOM</div>
-      <h2>読解ルーム</h2>
-      <p class="rr-subtitle">短い文章で日本語を深く読む。逐語訳・文法解説・音声練習付き。</p>
-    `;
-    container.appendChild(h);
+    const wrapper = document.createElement('div');
+    wrapper.id = 'page-category';
+    wrapper.className = 'reading-room-layout';
 
-    const list = document.createElement('div');
-    list.className = 'reading-list';
+    // 見出し
+    const h1 = document.createElement('h1');
+    h1.className = 'ps-lg-2';
+    h1.innerHTML = `
+      <i class="far fa-book-open fa-fw text-muted"></i>
+      読解ルーム
+      <span class="lead text-muted ps-2">${READING_LIST.length} 記事</span>
+    `;
+    wrapper.appendChild(h1);
+
+    // サブタイトル
+    const sub = document.createElement('p');
+    sub.className = 'text-muted ps-lg-2';
+    sub.textContent = '短い文章で日本語を深く読む。逐語訳・文法解説・音声練習付き。';
+    wrapper.appendChild(sub);
+
+    // 記事リスト
+    const ul = document.createElement('ul');
+    ul.className = 'content ps-0';
 
     READING_LIST.forEach(r => {
-      const card = document.createElement('div');
-      card.className = 'reading-card';
-      card.innerHTML = `
-        <span class="card-kicker">${escHtml(r.kicker)}</span>
-        <h3>${escHtml(r.title)}</h3>
-        <span class="card-badge">${escHtml(r.badge)}</span>
-      `;
-      card.addEventListener('click', () => {
+      const li = document.createElement('li');
+      li.className = 'd-flex justify-content-between px-md-3';
+      li.style.cursor = 'pointer';
+
+      const a = document.createElement('a');
+      a.textContent = r.title;
+      a.href = `/takanote/reading-room/${r.id}/`;
+
+      const dash = document.createElement('span');
+      dash.className = 'dash flex-grow-1';
+
+      const level = document.createElement('span');
+      level.className = 'text-muted small text-nowrap';
+      level.textContent = r.kicker;
+
+      li.appendChild(a);
+      li.appendChild(dash);
+      li.appendChild(level);
+
+      li.addEventListener('click', (e) => {
+        e.preventDefault();
         loadReading(r.id);
         history.pushState({}, '', `/takanote/reading-room/${r.id}/`);
       });
-      list.appendChild(card);
+
+      ul.appendChild(li);
     });
 
-    container.appendChild(list);
+    wrapper.appendChild(ul);
+    container.appendChild(wrapper);
   }
 
   // ======================================================================
