@@ -80,6 +80,14 @@
   max-width: 800px;
   margin: 0 auto;
   font-family: var(--rr-font-sans);
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* 全局溢出保护（解决任何文字过长不折行的问题） */
+#reading-room-container * {
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 /* ==========================================================================
@@ -210,6 +218,8 @@
 .rr-reader {
   max-width: 860px;
   margin: 0 auto;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* プログレスバー */
@@ -568,10 +578,10 @@ ruby {
 }
 
 rt {
-  font-size: 0.4em;
+  font-size: 0.5em;
   color: #222;
   font-weight: 400;
-  letter-spacing: 0;
+  letter-spacing: 0.02em;
   user-select: none;
 }
 
