@@ -1,84 +1,72 @@
-// takanote 読解ルーム — Interactive Reading Room
+// takanote 読解ルーム — Interactive Reading Reader v2
 
 (function () {
   'use strict';
 
-  // ---- 状态 ----
   let currentReading = null;
-  let currentUtterance = null;
-  let isSpeaking = false;
-
-  // DOM
-  let container, listEl;
+  let currentAudio = null;
 
   // ---- 初始化 ----
   document.addEventListener('DOMContentLoaded', () => {
-    container = document.getElementById('reading-room-container');
+    const container = document.getElementById('reading-room-container');
     if (!container) return;
 
-    // 注入 CSS
+    // CSS
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = '/takanote/assets/css/reading-room.css';
     document.head.appendChild(link);
 
-    listEl = document.getElementById('reading-list');
-
-    // 从 URL 参数加载指定阅读
     const params = new URLSearchParams(window.location.search);
     const readingId = params.get('read');
     if (readingId) {
-      loadReading(readingId);
+      loadReading(readingId, container);
     } else {
-      renderReadingList();
+      renderList(container);
     }
   });
 
-  // ---- 阅读数据清单 ----
-  function getReadingList() {
-    // 手动维护列表，或从 JSON 目录自动发现
+  // ---- 阅读清单 ----
+  function getList() {
     return [
-      { id: 'poster', title: '日本のポスターはなぜ情報量が多いのか', desc: '中級〜上級 | 10段落', file: '/takanote/assets/readings/poster.json' }
+      { id: 'poster', title: '日本のポスターはなぜ情報量が多いのか', desc: '中級〜上級 | 5段落', file: '/takanote/assets/readings/poster.json' }
     ];
   }
 
-  // ---- 渲染列表 ----
-  function renderReadingList() {
+  // ---- 列表页 ----
+  function renderList(container) {
     container.innerHTML = '';
-
-    const header = document.createElement('div');
-    header.className = 'rr-header';
-    header.innerHTML = '<h2>読解ルーム</h2><p class="rr-desc">小文章で日本語を深く読む。逐語訳・文法解説・音声練習付き。</p>';
-    container.appendChild(header);
+    const h = document.createElement('div');
+    h.className = 'rr-header';
+    h.innerHTML = '<h2>読解ルーム</h2><p class="rr-desc">小文章で日本語を深く読む。逐語訳・文法解説・音声練習付き。</p>';
+    container.appendChild(h);
 
     const list = document.createElement('div');
     list.className = 'reading-list';
-
-    getReadingList().forEach(r => {
+    getList().forEach(r => {
       const card = document.createElement('div');
       card.className = 'reading-card';
-      card.innerHTML = `<h3>${r.title}</h3><div class="meta">${r.desc}</div>`;
-      card.addEventListener('click', () => loadReading(r.id));
+      card.innerHTML = `<h3>${esc(r.title)}</h3><div class="meta">${esc(r.desc)}</div>`;
+      card.addEventListener('click', () => {
+        loadReading(r.id, container);
+        history.pushState({}, '', `?read=${r.id}`);
+      });
       list.appendChild(card);
     });
-
     container.appendChild(list);
   }
 
   // ---- 加载阅读 ----
-  function loadReading(id) {
-    const reading = getReadingList().find(r => r.id === id);
-    if (!reading) { renderReadingList(); return; }
+  function loadReading(id, container) {
+    const reading = getList().find(r => r.id === id);
+    if (!reading) { renderList(container); return; }
+
+    container.innerHTML = '<p style="color:var(--muted);padding:30px 0;">読み込み中…</p>';
 
     fetch(reading.file)
       .then(res => res.json())
       .then(data => {
-        // data 是数组，取第一个
-        if (Array.isArray(data)) {
-          renderReader(data[0] || data);
-        } else {
-          renderReader(data);
-        }
+        renderReader(Array.isArray(data) ? data[0] : data, container);
       })
       .catch(err => {
         container.innerHTML = `<p class="error-msg">❌ 読み込みエラー: ${err.message}</p>`;
@@ -86,179 +74,162 @@
   }
 
   // ---- 渲染阅读器 ----
-  function renderReader(data) {
+  function renderReader(data, container) {
     currentReading = data;
     container.innerHTML = '';
 
     // 返回按钮
-    const backBtn = document.createElement('button');
-    backBtn.className = 'back-btn';
-    backBtn.textContent = '← 読解ルーム一覧';
-    backBtn.addEventListener('click', () => {
-      stopSpeech();
-      renderReadingList();
+    const back = mk('button', 'back-btn', '← 読解ルーム一覧');
+    back.addEventListener('click', () => {
+      stopAudio();
+      renderList(container);
       history.pushState({}, '', window.location.pathname);
     });
 
-    // 标题
-    const header = document.createElement('div');
-    header.className = 'reader-header';
-    header.appendChild(backBtn);
-    header.innerHTML += `<h1>${data.title}</h1>`;
+    // 标题区
+    const header = mk('div', 'reader-header');
+    header.appendChild(back);
+    header.appendChild(mk('h1', 'reader-title', data.title));
     if (data.subtitle) {
-      header.innerHTML += `<p class="subtitle">${data.subtitle}</p>`;
+      header.appendChild(mk('p', 'reader-subtitle', data.subtitle));
     }
     container.appendChild(header);
 
     // 工具栏
-    const toolbar = document.createElement('div');
-    toolbar.className = 'reader-toolbar';
-    toolbar.innerHTML = `
+    const tb = mk('div', 'reader-toolbar');
+    tb.innerHTML = `
       <div class="toolbar-inner">
         <button class="toolbar-btn" data-toggle="hide-ruby">🔤 ルビ</button>
         <button class="toolbar-btn" data-toggle="no-gap">📏 間隔</button>
         <button class="toolbar-btn active" data-toggle="no-color">🎨 品詞色</button>
         <button class="toolbar-btn" data-toggle="compact">📄 コンパクト</button>
-        <button class="toolbar-btn" id="stop-all-audio">⏹ 停止</button>
-        <label class="loop-toggle"><input type="checkbox" id="loop-toggle"> 🔁 ループ</label>
+        <button class="toolbar-btn" id="stop-btn">⏹ 停止</button>
+        <label class="loop-toggle"><input type="checkbox" id="loop-cb"> 🔁 ループ</label>
       </div>
     `;
-    container.appendChild(toolbar);
+    container.appendChild(tb);
+
+    // 绑定工具栏
+    tb.querySelectorAll('[data-toggle]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.body.classList.toggle(btn.dataset.toggle);
+        btn.classList.toggle('active');
+      });
+    });
+    document.getElementById('stop-btn').addEventListener('click', stopAudio);
 
     // 图例
-    const legend = document.createElement('div');
-    legend.className = 'legend';
-    legend.innerHTML = `
-      <span class="legend-item" style="color:#8c6b35">名詞</span>
-      <span class="legend-item" style="color:#7a5c88">動詞</span>
-      <span class="legend-item" style="color:#567d7a">助詞</span>
-      <span class="legend-item" style="color:#9a5b4f">形容詞</span>
-      <span class="legend-item" style="color:#6c7892">副詞</span>
-      <span class="legend-item" style="color:#6f7d54">接続</span>
-      <span class="legend-item" style="color:#a07352">文法</span>
-    `;
+    const legend = mk('div', 'legend');
+    [
+      ['名詞', 'noun'], ['動詞', 'verb'], ['助詞', 'particle'],
+      ['形容詞', 'adj'], ['副詞', 'adverb'], ['接続', 'connector'], ['文法', 'grammar']
+    ].forEach(([label, cls]) => {
+      const span = document.createElement('span');
+      span.className = `legend-item ${cls}`;
+      span.textContent = label;
+      legend.appendChild(span);
+    });
     container.appendChild(legend);
 
     // 文章卡片
-    const article = document.createElement('div');
-    article.className = 'article-body';
-
+    const article = mk('div', 'article-body');
     data.paragraphs.forEach((para, idx) => {
-      const section = document.createElement('section');
-      section.className = 'para';
-      section.id = para.id || ('p' + idx);
-
-      // 段落头
-      const head = document.createElement('div');
-      head.className = 'para-head';
-      const no = document.createElement('div');
-      no.className = 'para-no';
-      no.textContent = `段落 ${String(idx + 1).padStart(2, '0')}`;
-      head.appendChild(no);
-
-      // 音频按钮
-      const audioBtns = document.createElement('div');
-      audioBtns.className = 'audio-btns';
-      audioBtns.innerHTML = `
-        <button class="audio-btn normal" data-text="${escHtml(para.ja)}" data-speed="1">▶ 普通</button>
-        <button class="audio-btn slow" data-text="${escHtml(para.ja)}" data-speed="0.68">▶ ゆっくり</button>
-      `;
-      head.appendChild(audioBtns);
-      section.appendChild(head);
-
-      // 正文
-      const jpDiv = document.createElement('div');
-      jpDiv.className = 'jp-text';
-      jpDiv.appendChild(renderWords(para.words));
-      section.appendChild(jpDiv);
-
-      // 翻译/语法面板
-      const details = document.createElement('details');
-      details.className = 'detail-panel';
-      const summary = document.createElement('summary');
-      summary.className = 'detail-summary';
-      summary.textContent = ' 翻訳 / 文法 / 語彙';
-      details.appendChild(summary);
-
-      const content = document.createElement('div');
-      content.className = 'detail-content';
-
-      // 翻译
-      if (para.en) {
-        const trans = document.createElement('div');
-        trans.className = 'translation-block';
-        trans.innerHTML = `<span class="label">翻译</span><div class="text">${escHtml(para.en)}</div>`;
-        content.appendChild(trans);
-      }
-
-      // 逐词译
-      if (para.literal) {
-        const lit = document.createElement('div');
-        lit.className = 'literal-trans';
-        lit.textContent = `直訳: ${para.literal}`;
-        content.appendChild(lit);
-      }
-
-      // 语法
-      if (para.grammar) {
-        const g = document.createElement('div');
-        g.className = 'grammar-note';
-        g.innerHTML = `<span class="label">文法</span><div>${para.grammar}</div>`;
-        content.appendChild(g);
-      }
-
-      // 词汇表
-      if (para.vocab && para.vocab.length > 0) {
-        const vGrid = document.createElement('div');
-        vGrid.className = 'vocab-grid';
-        para.vocab.forEach(v => {
-          const item = document.createElement('div');
-          item.className = 'vocab-item';
-          const reading = v[1] ? `（${v[1]}）` : '';
-          item.innerHTML = `<strong>${v[0]}</strong>${reading} — ${v[2]}`;
-          vGrid.appendChild(item);
-        });
-        content.appendChild(vGrid);
-      }
-
-      details.appendChild(content);
-      section.appendChild(details);
-      article.appendChild(section);
+      article.appendChild(buildPara(para, idx));
     });
-
     container.appendChild(article);
 
-    // 更新历史 URL
-    history.pushState({}, '', `?read=${currentReading.id}`);
+    // 说明
+    if (data.has_audio) {
+      const note = mk('p', 'reader-note', '🔊 音声は Microsoft Edge ニューラル音声（ja-JP-NanamiNeural）で合成しています。');
+      container.appendChild(note);
+    }
 
-    // 绑定事件
-    bindToolbarEvents();
-    bindAudioEvents();
+    currentAudio = null;
   }
 
-  // ---- 渲染单词 ----
-  function renderWords(words) {
+  // ---- 构建段落 ----
+  function buildPara(para, idx) {
+    const sec = document.createElement('section');
+    sec.className = 'para';
+    sec.id = para.id || ('p' + (idx + 1));
+
+    // 段头
+    const head = mk('div', 'para-head');
+    head.appendChild(mk('div', 'para-no', `段落 ${String(idx + 1).padStart(2, '0')}`));
+
+    // 音频按钮
+    const ab = mk('div', 'audio-btns');
+    const text4audio = escAttr(para.ja);
+    ab.innerHTML = `
+      <button class="audio-btn normal" data-text="${text4audio}" data-speed="1" data-audio="${escAttr(para.audio || '')}">▶ 普通</button>
+      <button class="audio-btn slow" data-text="${text4audio}" data-speed="0.65" data-audio="${escAttr(para.audio || '')}">▶ ゆっくり</button>
+    `;
+    head.appendChild(ab);
+    sec.appendChild(head);
+
+    // 正文
+    const jpDiv = mk('div', 'jp-text');
+    jpDiv.appendChild(buildWords(para.words));
+    sec.appendChild(jpDiv);
+
+    // 详情面板
+    const dt = document.createElement('details');
+    dt.className = 'detail-panel';
+    const sum = document.createElement('summary');
+    sum.className = 'detail-summary';
+    sum.textContent = ' 翻訳 / 文法 / 語彙';
+    dt.appendChild(sum);
+
+    const dc = mk('div', 'detail-content');
+    if (para.en) {
+      dc.innerHTML += `<div class="translation-block"><span class="label">翻译</span><div class="text">${esc(para.en)}</div></div>`;
+    }
+    if (para.literal) {
+      dc.innerHTML += `<div class="literal-trans">直訳: ${esc(para.literal)}</div>`;
+    }
+    if (para.grammar) {
+      dc.innerHTML += `<div class="grammar-note"><span class="label">文法</span><div>${esc(para.grammar)}</div></div>`;
+    }
+    if (para.vocab && para.vocab.length) {
+      let vhtml = '<div class="vocab-grid">';
+      para.vocab.forEach(v => {
+        const r = v[1] ? `（${v[1]}）` : '';
+        vhtml += `<div class="vocab-item"><strong>${esc(v[0])}</strong>${r} — ${esc(v[2])}</div>`;
+      });
+      vhtml += '</div>';
+      dc.innerHTML += vhtml;
+    }
+    dt.appendChild(dc);
+    sec.appendChild(dt);
+
+    // 绑定音频
+    ab.querySelectorAll('.audio-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        playAudio(sec.id, btn);
+      });
+    });
+
+    return sec;
+  }
+
+  // ---- 构建单词 ----
+  function buildWords(words) {
     const frag = document.createDocumentFragment();
     (words || []).forEach(w => {
-      if (!w.s || w.s === '') return;
-      if (w.s === '　' || w.s === ' ') {
+      if (!w.s) return;
+      if (/^[　 　、。．，！？\n\r]+$/.test(w.s)) {
         frag.appendChild(document.createTextNode(w.s));
         return;
       }
 
       const span = document.createElement('span');
       span.className = 'tok';
-
-      if (w.p) {
-        const POS_MAP = {
-          'noun': 'noun', 'verb': 'verb', 'particle': 'particle',
-          'adj': 'adj', 'adverb': 'adverb', 'connector': 'connector', 'grammar': 'grammar'
-        };
-        if (POS_MAP[w.p]) span.classList.add(POS_MAP[w.p]);
+      if (w.p && ['noun','verb','particle','adj','adverb','connector','grammar'].includes(w.p)) {
+        span.classList.add(w.p);
       }
 
-      // 带 ruby 的有汉字则用 ruby
-      if (w.r && w.r !== '' && /[\u4e00-\u9fff]/.test(w.s)) {
+      // Ruby 注音
+      if (w.r && /[\u4e00-\u9fff]/.test(w.s)) {
         const ruby = document.createElement('ruby');
         ruby.textContent = w.s;
         const rt = document.createElement('rt');
@@ -267,8 +238,7 @@
         span.appendChild(ruby);
       } else {
         span.textContent = w.s;
-        // 如果提供了 r 但没汉字，以括号注音显示
-        if (w.r && !/[\u4e00-\u9fff]/.test(w.s)) {
+        if (w.r) {
           const small = document.createElement('small');
           small.textContent = `(${w.r})`;
           small.style.cssText = 'font-size:0.5em;color:#6b6259;vertical-align:super;';
@@ -289,67 +259,84 @@
     return frag;
   }
 
-  // ---- 工具栏事件 ----
-  function bindToolbarEvents() {
-    document.querySelectorAll('[data-toggle]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const cls = btn.dataset.toggle;
-        document.body.classList.toggle(cls);
-        btn.classList.toggle('active');
-      });
-    });
+  // ---- 音频播放（预生成 MP3 优先，Web Speech API 后备） ----
+  function playAudio(paraId, btn) {
+    stopAudio();
 
-    document.getElementById('stop-all-audio')?.addEventListener('click', stopSpeech);
+    const audioSrc = btn.dataset.audio;
+    const text = btn.dataset.text;
+    const speed = parseFloat(btn.dataset.speed) || 1;
+
+    if (audioSrc) {
+      // 预生成 MP3 播放
+      const audio = new Audio('/takanote/' + audioSrc);
+      audio.playbackRate = speed;
+      audio.loop = document.getElementById('loop-cb').checked;
+
+      audio.addEventListener('ended', () => {
+        if (audio.loop) {
+          audio.currentTime = 0;
+          audio.play();
+        } else {
+          btn.classList.remove('playing');
+        }
+      });
+
+      audio.addEventListener('error', () => {
+        // 降级到 Web Speech API
+        btn.classList.remove('playing');
+        fallbackTTS(text, speed);
+      });
+
+      btn.classList.add('playing');
+      currentAudio = audio;
+      audio.play().catch(() => {
+        btn.classList.remove('playing');
+        fallbackTTS(text, speed);
+      });
+    } else {
+      fallbackTTS(text, speed);
+    }
   }
 
-  // ---- 音频事件 ----
-  function bindAudioEvents() {
-    document.querySelectorAll('.audio-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const text = btn.dataset.text;
-        const rate = parseFloat(btn.dataset.speed) || 1;
-        speak(text, rate);
-      });
-    });
-  }
-
-  // ---- 语音合成 ----
-  function speak(text, rate) {
-    stopSpeech();
-    if (!text) return;
-
+  function fallbackTTS(text, rate) {
     const u = new SpeechSynthesisUtterance(text);
     u.lang = 'ja-JP';
     u.rate = rate;
-    u.pitch = 1;
     u.onend = () => {
-      isSpeaking = false;
-      currentUtterance = null;
-      const loop = document.getElementById('loop-toggle');
+      const loop = document.getElementById('loop-cb');
       if (loop && loop.checked) {
-        setTimeout(() => speak(text, rate), 400);
+        setTimeout(() => fallbackTTS(text, rate), 400);
       }
     };
-    currentUtterance = u;
-    isSpeaking = true;
     window.speechSynthesis.speak(u);
   }
 
-  function stopSpeech() {
+  function stopAudio() {
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio = null;
+    }
     window.speechSynthesis.cancel();
-    currentUtterance = null;
-    isSpeaking = false;
+    document.querySelectorAll('.audio-btn.playing').forEach(b => b.classList.remove('playing'));
   }
 
-  // ---- 工具 ----
-  function escHtml(str) {
+  // ---- 工具函数 ----
+  function mk(tag, cls, text) {
+    const el = document.createElement(tag);
+    if (cls) el.className = cls;
+    if (text) el.textContent = text;
+    return el;
+  }
+
+  function esc(str) {
     if (!str) return '';
-    return str
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+  }
+
+  function escAttr(str) {
+    if (!str) return '';
+    return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#039;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
 })();

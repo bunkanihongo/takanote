@@ -89,7 +89,8 @@
             "p": "grammar",
             "n": "把疑问作为标题或问题提出"
           }
-        ]
+        ],
+        "audio": "assets/audio/poster/p1.mp3"
       },
       {
         "id": "p2",
@@ -263,7 +264,8 @@
             "p": "verb",
             "n": "看到、注意到"
           }
-        ]
+        ],
+        "audio": "assets/audio/poster/p2.mp3"
       },
       {
         "id": "p3",
@@ -382,7 +384,8 @@
             "p": "verb",
             "n": "能够理解"
           }
-        ]
+        ],
+        "audio": "assets/audio/poster/p3.mp3"
       },
       {
         "id": "p4",
@@ -672,7 +675,8 @@
             "p": "verb",
             "n": "存在"
           }
-        ]
+        ],
+        "audio": "assets/audio/poster/p4.mp3"
       },
       {
         "id": "p5",
@@ -881,8 +885,10 @@
             "r": "",
             "p": "grammar"
           }
-        ]
+        ],
+        "audio": "assets/audio/poster/p5.mp3"
       }
-    ]
+    ],
+    "has_audio": true
   }
 ]

@@ -1,24 +1,47 @@
-# 読解ルームのためのCSS
-# メインの読み取りスタイルは以下の通り
+/* =====================
+   takanote 読解ルーム
+   改良版 CSS
+   ===================== */
 
-/* 阅读列表部分 */
+:root {
+  --bg: #f7f3ec;
+  --paper: #fffdf8;
+  --ink: #25231f;
+  --muted: #7b746b;
+  --line: #ded6c9;
+  --accent: #c0392b;
+  --accent-light: #fce4e2;
+  --noun: #8c6b35;
+  --verb: #7a5c88;
+  --particle: #567d7a;
+  --adj: #9a5b4f;
+  --adverb: #6c7892;
+  --connector: #6f7d54;
+  --grammar: #a07352;
+  --radius: 18px;
+  --font-ja: "Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif;
+  --font-sans: -apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;
+}
+
+/* 阅读列表页面 */
 .reading-room-layout {
-  max-width: 820px;
+  max-width: 800px;
   margin: 0 auto;
 }
 
 .rr-header {
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 }
 
 .rr-header h2 {
-  font-size: 24px;
+  font-family: var(--font-ja);
+  font-size: 26px;
   font-weight: 600;
   margin-bottom: 6px;
 }
 
 .rr-desc {
-  color: #7b746b;
+  color: var(--muted);
   font-size: 14px;
   line-height: 1.7;
 }
@@ -26,39 +49,42 @@
 .reading-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 .reading-card {
-  background: #fff;
-  border: 1px solid #ded6c9;
-  border-radius: 14px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
   padding: 22px 26px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .reading-card:hover {
-  border-color: #c0392b;
+  border-color: var(--accent);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+  box-shadow: 0 6px 20px rgba(64,50,30,0.06);
 }
 
 .reading-card h3 {
+  font-family: var(--font-ja);
   font-size: 17px;
   font-weight: 600;
-  margin-bottom: 6px;
-  color: #2c2c2c;
+  margin-bottom: 4px;
+  color: var(--ink);
 }
 
 .reading-card .meta {
   font-size: 13px;
-  color: #7b746b;
+  color: var(--muted);
 }
 
-/* ===== 阅读器主界面 ===== */
+/* =====================
+   阅读器主界面
+   ===================== */
 .reader-container {
-  max-width: 900px;
+  max-width: 860px;
   margin: 0 auto;
 }
 
@@ -66,60 +92,67 @@
   margin-bottom: 20px;
 }
 
-.reader-header .back-btn {
+.back-btn {
   background: none;
-  border: 1px solid #ded6c9;
+  border: 1px solid var(--line);
   border-radius: 20px;
   padding: 6px 14px;
+  font-family: inherit;
   font-size: 13px;
-  color: #7b746b;
+  color: var(--muted);
   cursor: pointer;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   transition: 0.15s;
 }
 
-.reader-header .back-btn:hover {
-  background: #f4efe7;
+.back-btn:hover {
+  background: var(--accent-light);
+  color: var(--accent);
+  border-color: var(--accent);
 }
 
-.reader-header h1 {
+.reader-title {
+  font-family: var(--font-ja);
   font-size: clamp(24px, 3.5vw, 36px);
   line-height: 1.3;
-  font-weight: 500;
-  margin-bottom: 10px;
+  font-weight: 600;
+  margin-bottom: 8px;
 }
 
-.reader-header .subtitle {
-  color: #7b746b;
+.reader-subtitle {
+  color: var(--muted);
   font-size: 14px;
+  line-height: 1.6;
 }
 
-/* 工具栏 */
+/* =====================
+   工具栏
+   ===================== */
 .reader-toolbar {
   position: sticky;
   top: 60px;
   z-index: 20;
-  border-top: 1px solid #ded6c9;
-  border-bottom: 1px solid #ded6c9;
-  background: rgba(250,248,245,0.95);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: rgba(247,243,236,0.95);
   backdrop-filter: blur(8px);
   padding: 10px 0;
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 }
 
 .toolbar-inner {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
   align-items: center;
 }
 
 .toolbar-btn {
-  font-family: inherit;
+  font-family: var(--font-sans);
   font-size: 13px;
-  border: 1px solid #ded6c9;
+  border: 1px solid var(--line);
   background: #fffaf1;
-  color: #2c2c2c;
+  color: var(--ink);
   border-radius: 20px;
   padding: 6px 12px;
   cursor: pointer;
@@ -128,34 +161,39 @@
 }
 
 .toolbar-btn:hover {
-  background: #fff4df;
+  background: var(--accent-light);
 }
 
 .toolbar-btn.active {
-  background: #c0392b;
+  background: var(--accent);
   color: #fff;
-  border-color: #c0392b;
+  border-color: var(--accent);
 }
 
 .loop-toggle {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 4px;
+  font-family: var(--font-sans);
   font-size: 13px;
+  margin-left: 4px;
 }
 
 .loop-toggle input {
   vertical-align: -2px;
 }
 
-/* 词类图例 */
+/* =====================
+   图例
+   ===================== */
 .legend {
   display: flex;
   flex-wrap: wrap;
   gap: 8px 16px;
-  color: #7b746b;
-  font-size: 12px;
   margin-bottom: 20px;
+  color: var(--muted);
+  font-size: 12px;
+  font-family: var(--font-sans);
 }
 
 .legend-item::before {
@@ -169,23 +207,25 @@
   background: currentColor;
 }
 
-/* 文章主体卡片 */
+/* =====================
+   文章主体
+   ===================== */
 .article-body {
-  background: #fffdf8;
-  border: 1px solid #ded6c9;
-  border-radius: 22px;
-  padding: 20px clamp(16px, 3vw, 40px);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px clamp(18px, 3.8vw, 42px);
   box-shadow: 0 16px 40px rgba(64,50,30,0.06);
 }
 
 /* 段落 */
 .para {
-  padding: 24px 0;
-  border-bottom: 1px solid #ded6c9;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
 }
 
 .para:last-child {
-  border-bottom: 0;
+  border-bottom: none;
 }
 
 .para-head {
@@ -197,8 +237,10 @@
 }
 
 .para-no {
+  font-family: var(--font-sans);
   font-size: 12px;
-  color: #7b746b;
+  color: var(--muted);
+  letter-spacing: 0.08em;
   white-space: nowrap;
 }
 
@@ -212,10 +254,10 @@
   border: none;
   border-radius: 16px;
   padding: 4px 12px;
+  font-family: var(--font-sans);
   font-size: 12px;
   cursor: pointer;
   transition: 0.15s;
-  font-family: inherit;
 }
 
 .audio-btn.normal {
@@ -236,33 +278,24 @@
   background: #cde0d9;
 }
 
-.audio-btn.loop {
-  background: #e8e2f0;
-  color: #5d447a;
-}
-
-.audio-btn.loop:hover {
-  background: #d4c5e6;
-}
-
-.audio-btn.active-audio {
+.audio-btn.playing {
   opacity: 0.6;
 }
 
 /* 日文正文 */
 .jp-text {
-  font-size: clamp(20px, 2.8vw, 28px);
-  line-height: 2.1;
+  font-family: var(--font-ja);
+  font-size: clamp(22px, 3.1vw, 31px);
+  line-height: 2.2;
   letter-spacing: 0.015em;
-  margin-bottom: 10px;
 }
 
 /* 单词 token */
 .tok {
-  display: inline-block;
-  margin-inline-end: 0.1em;
-  padding: 0 0.03em 2px;
-  border-bottom: 2.5px solid transparent;
+  display: inline;
+  margin-inline-end: 0.11em;
+  padding: 0 0.02em 2px;
+  border-bottom: 2px solid transparent;
   border-radius: 2px;
   position: relative;
   cursor: help;
@@ -272,39 +305,39 @@
   background: #f7eedc;
 }
 
+.tok.noun { border-bottom-color: var(--noun); }
+.tok.verb { border-bottom-color: var(--verb); }
+.tok.particle { border-bottom-color: var(--particle); }
+.tok.adj { border-bottom-color: var(--adj); }
+.tok.adverb { border-bottom-color: var(--adverb); }
+.tok.connector { border-bottom-color: var(--connector); }
+.tok.grammar { border-bottom-color: var(--grammar); }
+
 /* 工具提示 */
 .tok-tooltip {
   display: none;
   position: absolute;
-  bottom: calc(100% + 6px);
+  bottom: calc(100% + 4px);
   left: 50%;
   transform: translateX(-50%);
-  max-width: 260px;
-  padding: 7px 10px;
+  padding: 6px 9px;
   background: #2c2925;
-  color: #fff;
+  color: #f7f3ec;
   border-radius: 8px;
+  font-family: var(--font-sans);
   font-size: 12px;
-  line-height: 1.45;
+  line-height: 1.4;
   white-space: nowrap;
   z-index: 30;
   pointer-events: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 .tok:hover .tok-tooltip {
   display: block;
 }
 
-/* 词性颜色 */
-.tok.noun { border-bottom-color: #8c6b35; }
-.tok.verb { border-bottom-color: #7a5c88; }
-.tok.particle { border-bottom-color: #567d7a; }
-.tok.adj { border-bottom-color: #9a5b4f; }
-.tok.adverb { border-bottom-color: #6c7892; }
-.tok.connector { border-bottom-color: #6f7d54; }
-.tok.grammar { border-bottom-color: #a07352; }
-
-/* ruby */
+/* ruby 注音 */
 rt {
   font-size: 0.42em;
   color: #6b6259;
@@ -312,10 +345,12 @@ rt {
   user-select: none;
 }
 
-/* 详情面板 */
+/* =====================
+   详情面板
+   ===================== */
 .detail-panel {
-  margin-top: 14px;
-  border: 1px solid #ded6c9;
+  margin-top: 16px;
+  border: 1px solid var(--line);
   border-radius: 14px;
   overflow: hidden;
   background: #fffbf4;
@@ -324,17 +359,20 @@ rt {
 .detail-summary {
   cursor: pointer;
   list-style: none;
-  padding: 10px 14px;
-  color: #463f37;
+  padding: 11px 16px;
+  font-family: var(--font-sans);
   font-size: 14px;
+  font-weight: 500;
+  color: #463f37;
   display: flex;
   align-items: center;
   gap: 6px;
+  user-select: none;
 }
 
 .detail-summary::before {
-  content: "▼";
-  font-size: 10px;
+  content: "▶";
+  font-size: 9px;
   transition: transform 0.2s;
 }
 
@@ -348,8 +386,9 @@ rt {
 
 .detail-content {
   padding: 14px 18px 18px;
-  border-top: 1px solid #ded6c9;
+  border-top: 1px solid var(--line);
   color: #3a352f;
+  font-family: var(--font-sans);
   font-size: 14px;
   line-height: 1.8;
 }
@@ -363,40 +402,39 @@ rt {
 }
 
 .translation-block {
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .translation-block .label {
   font-weight: 600;
   color: #5d447a;
   display: block;
-  font-size: 12px;
+  font-size: 11px;
   margin-bottom: 2px;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.translation-block .text {
-  color: #2c2c2c;
+  letter-spacing: 0.06em;
 }
 
 .literal-trans {
-  color: #7b746b;
+  color: var(--muted);
   font-size: 13px;
+  margin: 8px 0;
 }
 
 .grammar-note {
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px dotted #ded6c9;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dotted var(--line);
 }
 
 .grammar-note .label {
   font-weight: 600;
-  color: #a07352;
+  color: var(--grammar);
   display: block;
-  font-size: 12px;
-  margin-bottom: 4px;
+  font-size: 11px;
+  margin-bottom: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .vocab-grid {
@@ -407,30 +445,72 @@ rt {
 }
 
 .vocab-item {
-  border-top: 1px dotted #ded6c9;
+  border-top: 1px dotted var(--line);
   padding-top: 6px;
   font-size: 13px;
 }
 
-/* 开关效果 */
+.vocab-item strong {
+  font-weight: 600;
+}
+
+/* =====================
+   开关效果
+   ===================== */
 body.hide-ruby rt { display: none; }
 body.no-gap .tok { margin-inline-end: 0; }
 body.no-color .tok { border-bottom-color: transparent !important; }
 body.no-color .legend { display: none; }
 body.compact .jp-text {
-  font-size: clamp(18px, 2.4vw, 23px);
+  font-family: var(--font-sans);
+  font-size: clamp(19px, 2.6vw, 25px);
   line-height: 1.85;
 }
 
-/* 响应式 */
+/* =====================
+   页面说明
+   ===================== */
+.reader-note {
+  margin-top: 24px;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* =====================
+   错误提示
+   ===================== */
+.error-msg {
+  color: var(--accent);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  padding: 20px 0;
+}
+
+/* =====================
+   响应式
+   ===================== */
 @media (max-width: 640px) {
+  .reader-toolbar {
+    top: 55px;
+  }
+
   .para-head {
     flex-direction: column;
+    gap: 8px;
   }
+
   .audio-btns {
     justify-content: flex-start;
   }
+
   .jp-text {
-    line-height: 2.0;
+    line-height: 2.05;
+  }
+
+  .tok-tooltip {
+    white-space: normal;
+    max-width: 200px;
   }
 }
