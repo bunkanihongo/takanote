@@ -78,6 +78,14 @@
       desc: '文化と流通の構造を読み解く',
       badge: '8段落',
       file: '/takanote/assets/readings/nihon-no-poster.json'
+    },
+    {
+      id: 'hachijou-no-jiyuu',
+      title: '八平米の自由と、その外側に押し出されたもの',
+      kicker: '上級',
+      desc: '『東京八平米』から考える、住まいと都市の関係',
+      badge: '13段落',
+      file: '/takanote/assets/readings/hachijou-no-jiyuu.json'
     }
   ];
 
