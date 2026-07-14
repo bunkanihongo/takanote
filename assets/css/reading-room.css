@@ -430,6 +430,8 @@
   color: var(--rr-ink);
   word-break: keep-all;
   overflow-wrap: break-word;
+  /* ルビ（振り仮名）が上にはみ出さないよう余白 */
+  padding-top: 4px;
 }
 
 .rr-tok {
@@ -469,8 +471,7 @@ ruby {
 rt {
   font-size: clamp(8px, 0.45em, 12px);
   line-height: 1.15;
-}
-  color: #222;
+  color: #221f1b;
   font-weight: 400;
   letter-spacing: 0.02em;
   user-select: none;
