@@ -94,46 +94,6 @@
       desc: '『東京八平米』から考える、住まいと都市の関係',
       badge: '13段落',
       file: '/takanote/assets/readings/hachijou-no-jiyuu.json'
-    },
-    {
-      id: 'shinmeishin-jiko',
-      title: '新名神事故 遺族が初めて心境を語る',
-      kicker: '中級',
-      desc: 'ながらスマホ6人死亡事故、遺族の慟哭と裁判の行方',
-      badge: '11段落',
-      file: '/takanote/assets/readings/shinmeishin-jiko.json'
-    },
-    {
-      id: 'iran-kogeki',
-      title: 'イラン攻撃で米兵死亡 トランプ氏が警告',
-      kicker: '中級',
-      desc: 'ヨルダンで米兵2人死亡、イランとの緊張が激化',
-      badge: '5段落',
-      file: '/takanote/assets/readings/iran-kogeki.json'
-    },
-    {
-      id: 'shichou-sankyuu',
-      title: '市長産休入り 京都・八幡市長の挑戦',
-      kicker: '中級',
-      desc: '全国初の現職首長産休、制度のない中での模索',
-      badge: '9段落',
-      file: '/takanote/assets/readings/shichou-sankyuu.json'
-    },
-    {
-      id: 'fifa-ranking-2026',
-      title: 'FIFAランキング W杯終え大幅変更',
-      kicker: '中級',
-      desc: 'スペイン1位返り咲き、日本17位、韓国急落',
-      badge: '6段落',
-      file: '/takanote/assets/readings/fifa-ranking-2026.json'
-    },
-    {
-      id: 'churo-eez-jitsudan',
-      title: '中露 日本のEEZ内で実弾演習',
-      kicker: '中級',
-      desc: '防衛省が初確認、小泉防衛大臣が英で表明',
-      badge: '4段落',
-      file: '/takanote/assets/readings/churo-eez-jitsudan.json'
     }
   ];
 
