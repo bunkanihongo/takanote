@@ -72,6 +72,14 @@
   // ======================================================================
   const READING_LIST = [
     {
+      id: 'furo-no-kanki-sen',
+      title: '風呂の換気扇は24時間回し続けるべき？TOTOとLIXILに聞いた',
+      kicker: '中級',
+      desc: '浴室の換気扇の正しい使い方をプロに聞く',
+      badge: '9段落',
+      file: '/takanote/assets/readings/furo-no-kanki-sen.json'
+    },
+    {
       id: 'nihon-no-poster',
       title: '日本のポスターはなぜ情報量が多いのか',
       kicker: '中級〜上級',
